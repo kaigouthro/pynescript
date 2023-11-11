@@ -6,12 +6,10 @@ import tqdm
 
 def list_builtin_scripts():
     url = "https://pine-facade.tradingview.com"
-    path = "/pine-facade/list/"
     params = {"filter": "template"}
-    response = requests.get(url + path, params=params, timeout=60)
+    response = requests.get(f"{url}/pine-facade/list/", params=params, timeout=60)
     response.raise_for_status()
-    result = response.json()
-    return result
+    return response.json()
 
 
 def get_script(script_id_part, version):
@@ -20,8 +18,7 @@ def get_script(script_id_part, version):
     params = {"no_4xx": "false"}
     response = requests.get(url + path, params=params, timeout=60)
     response.raise_for_status()
-    result = response.json()
-    return result
+    return response.json()
 
 
 def download_builtin_scripts(script_dir, encodig=None):

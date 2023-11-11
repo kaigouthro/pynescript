@@ -101,15 +101,14 @@ def handle_type_specifier(results):
     last_token = results[-1]
     if len(results) == 1:
         return last_token
+    results_except_last_token = results[:-1]
+    if last_token == "[]":
+        element_type_token = handle_type_specifier(results_except_last_token)
+        return ast.ArrayType(element_type_token)
     else:
-        results_except_last_token = results[:-1]
-        if last_token == "[]":
-            element_type_token = handle_type_specifier(results_except_last_token)
-            return ast.ArrayType(element_type_token)
-        else:
-            type_name_token = handle_type_specifier(results_except_last_token)
-            type_argument_token = last_token
-            return ast.CollectionType(type_name_token, type_argument_token)
+        type_name_token = handle_type_specifier(results_except_last_token)
+        type_argument_token = last_token
+        return ast.CollectionType(type_name_token, type_argument_token)
 
 
 type_specifier <<= ConvertToNode(handle_type_specifier)(

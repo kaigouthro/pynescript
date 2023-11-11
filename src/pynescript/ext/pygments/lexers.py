@@ -89,9 +89,7 @@ class PyparsingToken(TokenConverter):
     def postParse(self, instring: str, loc: int, tokenlist: ParseResults):
         if self.token is None:
             return []
-        if len(tokenlist) == 0:
-            return []
-        return [(loc, self.token, str(tokenlist[0]))]
+        return [] if len(tokenlist) == 0 else [(loc, self.token, str(tokenlist[0]))]
 
 
 class PinescriptLexer(Lexer):
@@ -194,8 +192,4 @@ class PinescriptLexer(Lexer):
         text_transformed = Suppress(PinescriptLexer.expr).transform_string(text)
         len_text = len(text)
         len_text_transformed = len(text_transformed)
-        if len_text > 0:
-            score = (len_text - len_text_transformed) / len_text
-        else:
-            score = 0.0
-        return score
+        return (len_text - len_text_transformed) / len_text if len_text > 0 else 0.0
