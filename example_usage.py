@@ -244,8 +244,7 @@ class SimpleScriptExecutor(NodeTransformer):
         return self.visit(node.value)
 
     def visit_If(self, node: ast.If):
-        cond = self.visit(node.condition)
-        if cond:
+        if cond := self.visit(node.condition):
             res = None
             for item in node.body:
                 res = self.visit(item)

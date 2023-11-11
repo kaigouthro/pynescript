@@ -187,9 +187,7 @@ class ConvertToFactoryOutputAction(Generic[T], Callable[[str, int, ParseResults]
             for name, value in bound_arguments_args.arguments.items():
                 bound_arguments.arguments[name] = value
 
-        result = self._factory(*bound_arguments.args, **bound_arguments.kwargs)
-
-        return result
+        return self._factory(*bound_arguments.args, **bound_arguments.kwargs)
 
 
 class ConverterUsingFactory(TokenConverter, Generic[T]):

@@ -11,7 +11,7 @@ from pynescript.ast.types import AST
 class NodeVisitor:
     def visit(self, node):
         """Visit a node."""
-        method = "visit_" + node.__class__.__name__
+        method = f"visit_{node.__class__.__name__}"
         visitor = getattr(self, method, self.generic_visit)
         return visitor(node)
 
@@ -132,10 +132,7 @@ class Unparser(NodeVisitor):
         self.write(end)
 
     def delimit_if(self, start, end, condition):
-        if condition:
-            return self.delimit(start, end)
-        else:
-            return nullcontext()
+        return self.delimit(start, end) if condition else nullcontext()
 
     def require_parens(self, precedence, node):
         """Shortcut to adding precedence related parens"""

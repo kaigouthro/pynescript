@@ -48,8 +48,7 @@ def calc_width_col(loc, string, tab_width=4):
     char_col = calc_char_col(loc, string)
     indent_chars = string[(loc - char_col + 1) : loc]
     indent_width = calc_width(indent_chars, tab_width=tab_width)
-    width_col = indent_width + 1
-    return width_col
+    return indent_width + 1
 
 
 @contextmanager

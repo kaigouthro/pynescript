@@ -130,8 +130,7 @@ def handle_logical_expression(left, operator, right):
     values = [left, right]
     values = iterate_logical_expression_values(values, operator)
     values = list(values)
-    node = ast.Boolean(operator, values)
-    return node
+    return ast.Boolean(operator, values)
 
 
 def infix_notation_action(action):

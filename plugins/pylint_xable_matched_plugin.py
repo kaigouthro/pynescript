@@ -155,17 +155,12 @@ class XableMatchedPluginChecker(BaseChecker):
     @classmethod
     def parse_argument_value(cls, string: str):
         if string:
-            string = string.strip()
-            while string:
+            while string := string.strip():
                 pattern, string = string.split(":", 1)
                 tokens = re.split(r"\s+", string, 1)
-                if len(tokens) > 1:
-                    msgids, string = tokens
-                else:
-                    msgids, string = tokens[0], ""
+                msgids, string = tokens if len(tokens) > 1 else (tokens[0], "")
                 msgids = [msgid.strip() for msgid in msgids.split(",") if msgid.strip()]
                 yield pattern, msgids
-                string = string.strip()
 
     def __init__(self, linter: PyLinter) -> None:
         super().__init__(linter)
@@ -280,12 +275,9 @@ def register(linter: PyLinter) -> None:
 def get_checker(linter: PyLinter, cls: type[BaseChecker]) -> BaseChecker | None:
     checkers = linter.get_checkers()
     checkers = filter(lambda checker: isinstance(checker, cls), checkers)
-    checker = next(checkers, None)
-    return checker
+    return next(checkers, None)
 
 
 def load_configuration(linter: PyLinter) -> None:
-    checker = get_checker(linter, XableMatchedPluginChecker)
-
-    if checker:
+    if checker := get_checker(linter, XableMatchedPluginChecker):
         checker.load_configuration()

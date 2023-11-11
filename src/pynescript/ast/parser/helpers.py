@@ -44,9 +44,7 @@ def parse_string(
     if expand_tabs:
         source = source.expandtabs(tab_width)
 
-    version_results = version_comment_expr.search_string(source)
-
-    if version_results:
+    if version_results := version_comment_expr.search_string(source):
         version_result = version_results[0]
         script_version = version_result.get("version")
 
@@ -109,11 +107,7 @@ def parse_string(
 
         raise err
 
-    if parse_results:
-        script_node = parse_results[0]
-    else:
-        script_node = ast.Script([])
-
+    script_node = parse_results[0] if parse_results else ast.Script([])
     if script_version is not None:
         script_node.version = script_version
 
@@ -133,8 +127,6 @@ def parse_file(
         encoding = "utf-8"
 
     with ExitStack() as stack:
-        source = None
-
         if isinstance(f, str):
             f = Path(f)
         if isinstance(f, Path):
@@ -143,13 +135,11 @@ def parse_file(
             f = BytesIO(f)
         if isinstance(f, RawIOBase):
             f = TextIOWrapper(f, encoding=encoding)
-        if isinstance(f, TextIOBase):
-            source = f.read()
-
+        source = f.read() if isinstance(f, TextIOBase) else None
         if source is None:
             raise TypeError(f"Unsupported argument type: {type(f)}")
 
-        script_node = parse_string(
+        return parse_string(
             source,
             parse_all=parse_all,
             expand_tabs=expand_tabs,
@@ -157,8 +147,6 @@ def parse_file(
             tab_width=tab_width,
             recursion_limit=recursion_limit,
         )
-
-        return script_node
 
 
 def parse(
