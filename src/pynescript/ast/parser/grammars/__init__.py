@@ -1,6 +1,5 @@
 import pyparsing
 
-
 debug = False
 
 if debug:
@@ -18,7 +17,26 @@ from . import expression as expression_grammars
 from . import module as module_grammars
 from . import statement as statement_grammars
 from . import structure as structure_grammars
+from . import library as library_grammars
+from . import user_defined_types as user_defined_types_grammars
+from . import methods as methods_grammars
+from . import maps as maps_grammars
 
+# Add code here to update the parsers for libraries
+# Add code here to update the lexers for libraries
+# Add code here to update the types for libraries
+
+# Add code here to update the parsers for user-defined types
+# Add code here to update the lexers for user-defined types
+# Add code here to update the types for user-defined types
+
+# Add code here to update the parsers for methods
+# Add code here to update the lexers for methods
+# Add code here to update the types for methods
+
+# Add code here to update the parsers for maps
+# Add code here to update the lexers for maps
+# Add code here to update the types for maps
 
 common_grammars.expression <<= expression_grammars.expression
 common_grammars.local_statement <<= statement_grammars.local_statement
@@ -52,3 +70,7 @@ from .expression import *
 from .module import *
 from .statement import *
 from .structure import *
+from .library import *
+from .user_defined_types import *
+from .methods import *
+from .maps import *
